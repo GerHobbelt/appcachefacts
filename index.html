@@ -140,6 +140,10 @@
           </div>
         </li>
         <li>
+          Redirects to other domains are treated as failures. If you have a fallback, the browser will display the fallback page instead.
+          To circumvent this, you can use Javascript (<code>window.location = "http://newpage.com"</code>) or a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta">META redirect</a>.
+        </li>
+        <li>
           Over SSL, all resources in the manifest must respect the same-origin policy.
           <div class="details">
             <p>That is, all paths must be relative, or point to resources on the same host and port as the current page.</p>
