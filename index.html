@@ -99,16 +99,14 @@
       }
 
     </style>
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-21977918-1']);
-      _gaq.push(['_trackPageview']);
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+      ga('create', 'UA-6776776-5', 'offline.technology');
+      ga('send', 'pageview');
     </script>
   </head>
   <body>
@@ -133,18 +131,23 @@
             <p>The <code>NETWORK</code> section lists all URLs that may be loaded over the Internet. If your application includes
             any API calls, make sure to enumerate them here. Note that this is a list of URL <strong>prefixes</strong>, so if
             all of your network calls begin with http://example.com/api/, that's all you need to include.</p>
-            <p>If you want to allow arbitrary URLs to be accessed (scripts, stylesheets, API calls, anything), include <code>*</code>, <code>http://*</code> and <code>https://*</code> in this section. (Chrome and Safari respect the <code>*</code>; Firefox needs the <code>http://*</code> and <code>https://*</code>.)</p>
+            <p>If you want to allow arbitrary URLs to be accessed (scripts, stylesheets, API calls, anything), include <code>*</code>
+            in this section. (<a href="http://codebits.glennjones.net/appcache/network/index.html">Read more information about browser-specific behavior.</a>)</p>
             <p>The <code>FALLBACK</code> section lists replacements for network URLs to be used when the browser is offline or the
             remote server is unavailable.</p>
             <p>The <code>SETTINGS</code> specifies settings for appcache behaviour. Currently, the only available setting is cache mode.</p>
-            <p><code>prefer-online</code>, which indicates that cached data should not be used when the browser has an active internet connection (supported in Firefox 14+ and Opera 12+). The default is <code>fast</code>, which uses the cache even when the browser has an active internet conncetion.</p>
+            <p><code>prefer-online</code>, which indicates that cached data should not be used when the browser has an active internet connection (supported in Firefox 14+ and Opera 12+). The default is <code>fast</code>, which uses the cache even when the browser has an active internet connection.</p>
           </div>
+        </li>
+        <li>
+          Redirects to other domains are treated as failures. If you have a fallback, the browser will display the fallback page instead.
+          To circumvent this, you can use Javascript (<code>window.location = "http://newpage.com"</code>) or a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta">META redirect</a>.
         </li>
         <li>
           Over SSL, all resources in the manifest must respect the same-origin policy.
           <div class="details">
             <p>That is, all paths must be relative, or point to resources on the same host and port as the current page.</p>
-            <p>The exception is Google Chrome, which doesn't follow the <a href="http://www.w3.org/TR/html5/offline.html">specification</a> in this regard. Over SSL, Chrome will load resources from different origins so long as they are still served over SSL.</p>
+            <p>The exception is Google Chrome, which doesn't follow the <a href="http://dev.w3.org/html5/spec-preview/offline.html">specification</a> in this regard. Over SSL, Chrome will load resources from different origins so long as they are still served over SSL.</p>
           </div>
         </li>
         <li>Any changes made to the manifest file will cause the browser to update the application cache.
@@ -174,7 +177,7 @@ CACHE:
               <p>If you'd like, you can listen for the <code>updateready</code> event to detect this and prompt the
               user to reload the page:</p>
               <p><pre>if (window.applicationCache) {
-    applicationCache.addEventListener('updateready', function() {
+    window.applicationCache.addEventListener('updateready', function() {
         if (confirm('An update is available. Reload now?')) {
             window.location.reload();
         }
@@ -195,7 +198,7 @@ CACHE:
         <li>Regardless of whether you include the address of the current page in the manifest, it will be cached.</li>
         <li>In Chrome, you can see information about appcached sites by visiting <code>chrome://appcache-internals/</code>. This allows you to see which sites have appcached, when they were last modified, and how much space they're using. You can also remove appcaches here.</li>
         <li>In Firefox, any resources served with <code>Cache-control: <strong>no-store</strong></code> will not be cached, even if they're explicitly included in the manifest.</li>
-        <li>Firefox will always ask the user for permission before caching a site for the first time.</li>
+        <li>Firefox version 25 and below will always ask the user for permission before caching a site for the first time.</li>
       </ul>
     </section>
 
@@ -219,7 +222,7 @@ CACHE:
 
     <section id="footer">
       <p>
-        &copy; 2013 <a href="https://twitter.com/shinypb">Mark Christian</a> &amp; <a href="https://twitter.com/peterlubbers">Peter Lubbers</a>. License: <a href="http://creativecommons.org/licenses/by/3.0/">CC Attribution 3.0</a>. Patches welcome on <a href="https://github.com/shinypb/appcachefacts">GitHub</a>.
+        &copy; 2013 <a href="https://twitter.com/shinypb">Mark Christian</a> &amp; <a href="https://twitter.com/peterlubbers">Peter Lubbers</a>. License: <a href="http://creativecommons.org/licenses/by/3.0/">CC Attribution 3.0</a>. Patches welcome on <a href="https://github.com/demands/appcachefacts">GitHub</a>.
       </p>
     </section>
   </body>
